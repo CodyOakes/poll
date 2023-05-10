@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
     previewFeatures = ["jsonProtocol"]
 }
 
@@ -64,4 +64,17 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Poll {
+    id       String    @id @default(cuid())
+    question String
+    answers  Answers[]
+}
+
+model Answers {
+    id     String  @id @default(cuid())
+    Poll   Poll?   @relation(fields: [pollId], references: [id])
+    pollId String?
+    text   String
 }
